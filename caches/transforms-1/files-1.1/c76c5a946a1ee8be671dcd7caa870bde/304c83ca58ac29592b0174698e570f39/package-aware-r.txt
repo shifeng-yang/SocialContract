@@ -1,1 +1,0 @@
-android.support.graphics.drawable.animated
