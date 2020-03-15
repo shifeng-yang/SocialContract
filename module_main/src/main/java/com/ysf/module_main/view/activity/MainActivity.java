@@ -1,24 +1,32 @@
 package com.ysf.module_main.view.activity;
 
-import android.util.Log;
-import android.widget.TextView;
+import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
+import com.ysf.module_main.view.fragment.ContractFragment;
+import com.ysf.module_main.view.fragment.MessageFragment;
+import com.ysf.module_main.view.fragment.SettingFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
+import me.majiajie.pagerbottomtabstrip.NavigationController;
+import me.majiajie.pagerbottomtabstrip.PageNavigationView;
+import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
+import me.majiajie.pagerbottomtabstrip.item.NormalItemView;
 
 public class MainActivity extends BaseActivity {
     @BindView(R2.id.vp_main)
     ViewPager vpMain;
-    @BindView(R2.id.tv_msg)
-    TextView tvMsg;
+    @BindView(R2.id.pn_tab)
+    PageNavigationView pnTab;
 
     @Override
     protected int getLayoutID() {
@@ -27,31 +35,46 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void iniEventData() {
-        Log.d("MainActivity", "tvMsg:" + tvMsg);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (vpMain == null) {
-            Log.d("MainActivity", "空的");
-        } else {
-            Log.d("MainActivity", "vpMain:" + vpMain);
-        }
-        vpMain.setAdapter(new MyAdapter(fragmentManager));
+        getSwipeBackLayout().setEnableGesture(false);
+        iniViewPage();
+        initNP();
     }
 
-    class MyAdapter extends FragmentPagerAdapter {
+    private void iniViewPage() {
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new MessageFragment());
+        fragments.add(new ContractFragment());
+        fragments.add(new SettingFragment());
+        vpMain.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(),FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+            @NonNull
+            @Override
+            public Fragment getItem(int position) {
+                return fragments.get(position);
+            }
 
-        public MyAdapter(@NonNull FragmentManager fm) {
-            super(fm);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public int getCount() {
-            return 0;
-        }
+            @Override
+            public int getCount() {
+                return fragments.size();
+            }
+        });
     }
+
+    private void initNP() {
+        NavigationController navigationController = pnTab.custom()
+                .addItem(newItem(R.drawable.message_normal,R.drawable.message_active,"消息"))
+                .addItem(newItem(R.drawable.contract_normal,R.drawable.contract_active,"联系人"))
+                .addItem(newItem(R.drawable.setting_normal,R.drawable.setting_active,"设置"))
+                .build();
+        navigationController.setupWithViewPager(vpMain);
+    }
+
+    //创建一个Item
+    private BaseTabItem newItem(int drawable, int checkedDrawable, String text){
+        NormalItemView normalItemView = new NormalItemView(this);
+        normalItemView.initialize(drawable,checkedDrawable,text);
+        normalItemView.setTextDefaultColor(Color.GRAY);
+        normalItemView.setTextCheckedColor(getResources().getColor(R.color.colorPrimary));
+        return normalItemView;
+    }
+
 }

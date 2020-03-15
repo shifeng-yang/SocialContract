@@ -47,5 +47,8 @@ dependencies {
     //环信支持
     implementation 'com.google.android.gms:play-services-base:17.1.0'
     implementation 'com.google.firebase:firebase-messaging:20.1.2'
-    api 'com.hyphenate:hyphenate-sdk:3.6.1'
+    compileOnly 'com.hyphenate:hyphenate-sdk:3.6.1'
+
+    //navigation_bottom
+    api 'me.majiajie:pager-bottom-tab-strip:2.3.0X'
 }
