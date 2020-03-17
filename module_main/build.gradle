@@ -2,6 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
+    //use legacy for android 6.0
+    useLibrary 'org.apache.http.legacy'
+
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
 

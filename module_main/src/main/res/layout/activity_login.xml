@@ -100,7 +100,7 @@
             android:layout_marginEnd="20dp"
             android:gravity="center"
             android:text="没有账号?立即注册"
-            android:textColor="@drawable/bg_sign_up_text"
+            android:textColor="#BAD289"
             android:textSize="16sp"
             android:textStyle="bold" />
     </FrameLayout>
