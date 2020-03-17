@@ -147,7 +147,7 @@ public abstract class EaseGroupRemoveListener implements EMGroupChangeListener{
      * \~chinese
      * 自动同意加入群组
      * sdk会先加入这个群组，并通过此回调通知应用
-     * 参考{@link com.hyphenate.chat.EMOptions#setAutoAcceptGroupInvitation(boolean value)}
+     * 参考{ com.hyphenate.chat.EMOptions#setAutoAcceptGroupInvitation(boolean value)}
      *
      * @param groupId
      * @param inviter
@@ -155,7 +155,7 @@ public abstract class EaseGroupRemoveListener implements EMGroupChangeListener{
      *
      * \~english
      * When received group join invitation, will auto accept it and join the group
-     * Please refer to {@link com.hyphenate.chat.EMOptions#setAutoAcceptGroupInvitation(boolean value)}
+     * Please refer to { com.hyphenate.chat.EMOptions#setAutoAcceptGroupInvitation(boolean value)}
      *
      * @param groupId			group id
      * @param inviter

@@ -14,6 +14,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.LoginActivity"/>
+        <activity android:name=".view.activity.RegisteActivity"/>
+        <activity android:name=".view.activity.MainActivity"/>
 
         <!-- 声明SDK所需的service SDK核心功能-->
         <service android:name="com.hyphenate.chat.EMChatService" android:exported="true"/>

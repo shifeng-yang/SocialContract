@@ -13,11 +13,10 @@
  */
 package com.hyphenate.easeui.adapter;
 
-import java.util.List;
-
-import androidx.core.view.PagerAdapter;
-import androidx.core.view.ViewPager;
 import android.view.View;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import java.util.List;
 
 public class EaseExpressionPagerAdapter extends PagerAdapter {
 

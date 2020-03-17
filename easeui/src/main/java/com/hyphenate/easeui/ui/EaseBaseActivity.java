@@ -21,7 +21,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+
 import androidx.fragment.app.FragmentActivity;
+
 import com.hyphenate.easeui.EaseUI;
 
 @SuppressLint({"NewApi", "Registered"})

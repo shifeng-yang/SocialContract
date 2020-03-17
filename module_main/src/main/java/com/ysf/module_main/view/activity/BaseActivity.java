@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
@@ -18,6 +17,8 @@ public abstract class BaseActivity extends SwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutID());
+        //必须在iniEventData()之前初始化 不然控件会报空指针
+        mUnbinder = ButterKnife.bind(this);
         mContext = this;
         //设置导航栏透明
         setImageStatus();
@@ -25,7 +26,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
         iniEventData();
         //设置边沿滑动的范围
         getSwipeBackLayout().setEdgeSize(360);
-        mUnbinder = ButterKnife.bind(this);
     }
 
     protected abstract int getLayoutID();

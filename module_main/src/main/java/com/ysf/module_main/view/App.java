@@ -1,25 +1,23 @@
 package com.ysf.module_main.view;
 
-import android.content.Context;
-
-import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
-
 import com.hyphenate.chat.EMOptions;
+import com.hyphenate.easeui.EaseUI;
+import com.ysf.module_main.model.MyModel;
 
 public class App extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        //初始化model
+        MyModel.getInstance().init(this);
+        //初始化环信SDK
         EMOptions emOptions = new EMOptions();
-        emOptions.setAcceptInvitationAlways(false);
         emOptions.setAutoAcceptGroupInvitation(false);
-//        EaseUI.getInstance().init(this,emOptions);
+        emOptions.setAcceptInvitationAlways(false);
+        emOptions.setAutoLogin(false);
+        EaseUI.getInstance().init(this,emOptions);
     }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
+
 }

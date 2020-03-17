@@ -37,9 +37,6 @@ dependencies {
     api 'androidx.test:runner:1.3.0-alpha04'
     api 'androidx.test.espresso:espresso-core:3.3.0-alpha04'
 
-    //右划返回
-    api 'me.imid.swipebacklayout.lib:library:1.1.0'
-
     //下拉刷新
     api 'com.baoyz.pullrefreshlayout:library:1.2.0'
 
@@ -50,5 +47,8 @@ dependencies {
     //环信支持
     implementation 'com.google.android.gms:play-services-base:17.1.0'
     implementation 'com.google.firebase:firebase-messaging:20.1.2'
-    api 'com.hyphenate:hyphenate-sdk:3.6.1'
+    compileOnly 'com.hyphenate:hyphenate-sdk:3.6.1'
+
+    //navigation_bottom
+    api 'me.majiajie:pager-bottom-tab-strip:2.3.0X'
 }

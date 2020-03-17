@@ -100,6 +100,8 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 	
 	/**
 	 * download image
+	 * 
+	 * @param msgId
 	 */
 	@SuppressLint("NewApi")
 	private void downloadImage(final String msgId) {

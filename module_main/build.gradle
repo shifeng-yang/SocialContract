@@ -40,4 +40,7 @@ dependencies {
     //butterknife apply plugin也必须在同一个模块下配置  R2也使用这个模块的 不然会报nullpointexception
     api 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    implementation project(path: ':swipe_back')
+    implementation project(path: ':easeui')
+    implementation 'org.jetbrains:annotations:15.0'
 }

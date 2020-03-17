@@ -3,8 +3,11 @@ package com.ysf.module_main.view.activity;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.widget.TextView;
+
+import com.hyphenate.chat.EMClient;
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
@@ -26,6 +29,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void iniEventData() {
+        getSwipeBackLayout().setEnableGesture(false);
         mDisposable = new CompositeDisposable(
                 Observable.create((ObservableOnSubscribe<String>) emitter -> {
                     while (time >= 0) {
@@ -44,7 +48,13 @@ public class SplashActivity extends BaseActivity {
                             }
                             tvSkipTime.setText("跳过:" + s + "s");
                             if (s.equals("0")) {
-                                startActivity(new Intent(mContext, LoginActivity.class));
+                                if (EMClient.getInstance().isLoggedInBefore()) {
+                                    EMClient.getInstance().chatManager().loadAllConversations();
+                                    EMClient.getInstance().groupManager().loadAllGroups();
+                                    startActivity(new Intent(mContext,MainActivity.class));
+                                } else {
+                                    startActivity(new Intent(mContext, LoginActivity.class));
+                                }
                                 finish();
                             }
                         })
@@ -57,7 +67,11 @@ public class SplashActivity extends BaseActivity {
         if (mDisposable != null) {
             mDisposable.dispose();
         }
-        startActivity(new Intent(this, LoginActivity.class));
+        if (EMClient.getInstance().isLoggedInBefore()) {
+            startActivity(new Intent(mContext,MainActivity.class));
+        } else {
+            startActivity(new Intent(mContext, LoginActivity.class));
+        }
         finish();
     }
 
