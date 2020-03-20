@@ -6,10 +6,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.ysf.module_main.R;
+
 import org.jetbrains.annotations.NotNull;
+
+import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public abstract class BaseFragment extends Fragment {
@@ -17,6 +24,7 @@ public abstract class BaseFragment extends Fragment {
     protected Activity mActivity;
     protected Context mContext;
     private View mView;
+    private boolean isInited;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -33,9 +41,34 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mUnBinder = ButterKnife.bind(this, view);
+        if (!isHidden()) {
+            isInited = true;
+            initEventData();
+        }
+
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!isInited && !hidden) {
+            isInited = true;
+            initEventData();
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         if (mUnBinder != null) mUnBinder.unbind();
+    }
+
+    protected void initToolBar(String title) {
+        TextView tv_title = mView.findViewById(R.id.tv_title);
+        tv_title.setText(title);
     }
 
     protected abstract int getLayoutId();

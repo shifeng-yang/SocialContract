@@ -10,6 +10,7 @@ import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
 import com.ysf.module_main.model.MyModel;
 import com.ysf.module_main.model.bean.MyUserManage;
+import com.ysf.module_main.utils.SweetDialogUtils;
 import com.ysf.module_main.utils.ToastUtils;
 
 import butterknife.BindView;
@@ -46,26 +47,29 @@ public class LoginActivity extends BaseActivity {
             ToastUtils.show(mContext, "输入不能为空!");
             return;
         }
+        SweetDialogUtils.getSingleInstance().loadingDialog(this);
         mDisposable = new CompositeDisposable(
                 Observable.create((ObservableOnSubscribe<String>) emitter ->
                         EMClient.getInstance().login(user, psd, new EMCallBack() {
                             @Override
                             public void onSuccess() {
+                                SweetDialogUtils.getSingleInstance().dismiss();
                                 EMClient.getInstance().chatManager().loadAllConversations();
                                 EMClient.getInstance().groupManager().loadAllGroups();
                                 //保存用户信息
                                 MyUserManage userManage = new MyUserManage();
-                                userManage.setName(user);
                                 userManage.setHx_id(user);
-                                userManage.setImgUrl(user);
+                                userManage.setName(user);
                                 userManage.setNick(user);
+                                userManage.setImgUrl(user);
                                 MyModel.getInstance().mDao.addAccount(userManage);
-                                emitter.onNext("登录成功");
+                                emitter.onNext("欢迎使用!");
                             }
 
                             @Override
                             public void onError(int i, String s) {
-                                emitter.onNext(i + "  " + s);
+                                SweetDialogUtils.getSingleInstance().dismiss();
+                                emitter.onNext("出错了:" + i + "  " + s);
                             }
 
                             @Override
@@ -82,7 +86,7 @@ public class LoginActivity extends BaseActivity {
                                 return;
                             }
                             ToastUtils.show(mContext, s);
-                            if (s.equals("登录成功")) {
+                            if (s.equals("欢迎使用!")) {
                                 startActivity(new Intent(mContext, MainActivity.class));
                                 finish();
                             }

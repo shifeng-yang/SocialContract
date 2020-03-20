@@ -15,6 +15,7 @@ public class UserAccountDao {
         mHelp = new UserAccountDB(context);
     }
 
+
     public void addAccount(MyUserManage user) {
         mDb = mHelp.getReadableDatabase();
         ContentValues values = new ContentValues();

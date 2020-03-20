@@ -11,6 +11,6 @@ public class MessageFragment extends BaseFragment {
 
     @Override
     protected void initEventData() {
-
+        initToolBar("消息");
     }
 }

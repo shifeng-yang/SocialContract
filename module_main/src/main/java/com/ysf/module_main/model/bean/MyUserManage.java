@@ -6,17 +6,6 @@ public class MyUserManage {
     private String nick;
     private String imgUrl;
 
-  /*  public static MyUserManage getInstance() {
-        if (mMyUserManange == null) {
-            synchronized (MyUserManage.class) {
-                if (mMyUserManange == null) {
-                    mMyUserManange = new MyUserManage();
-                }
-            }
-        }
-        return mMyUserManange;
-    }*/
-
     public String getName() {
         return name;
     }
@@ -48,4 +37,5 @@ public class MyUserManage {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
+
 }

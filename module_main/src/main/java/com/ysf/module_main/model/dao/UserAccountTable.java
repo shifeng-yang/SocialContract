@@ -5,12 +5,12 @@ public interface UserAccountTable {
     String NAME = "name";
     String HXID = "hxid";
     String NICK = "nick";
-    String IMGURL = "imgurl";
+    String IMGURL = "imgUrl";
 
     String CREATE_TABLE = "create table " +
             TABLE_NAME + " (" +
             HXID + " text primary key," +
             NAME + " text," +
             NICK + " text," +
-            IMGURL + "text);";
+            IMGURL + " text);";
 }
