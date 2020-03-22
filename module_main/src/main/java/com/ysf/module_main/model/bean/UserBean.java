@@ -1,6 +1,6 @@
 package com.ysf.module_main.model.bean;
 
-public class MyUserManage {
+public class UserBean {
     private String name;
     private String hx_id;
     private String nick;

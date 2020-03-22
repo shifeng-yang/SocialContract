@@ -58,6 +58,6 @@ dependencies {
     //气泡对话框
     api 'com.github.michaelye.easydialog:easydialog:1.4'
 
-    //sweetDialog
+    //sweetDialog..
     api 'com.github.f0ris.sweetalert:library:1.6.2'
 }

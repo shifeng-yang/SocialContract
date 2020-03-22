@@ -9,7 +9,7 @@ import com.hyphenate.chat.EMClient;
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
 import com.ysf.module_main.model.MyModel;
-import com.ysf.module_main.model.bean.MyUserManage;
+import com.ysf.module_main.model.bean.UserBean;
 import com.ysf.module_main.utils.SweetDialogUtils;
 import com.ysf.module_main.utils.ToastUtils;
 
@@ -57,7 +57,7 @@ public class LoginActivity extends BaseActivity {
                                 EMClient.getInstance().chatManager().loadAllConversations();
                                 EMClient.getInstance().groupManager().loadAllGroups();
                                 //保存用户信息
-                                MyUserManage userManage = new MyUserManage();
+                                UserBean userManage = new UserBean();
                                 userManage.setHx_id(user);
                                 userManage.setName(user);
                                 userManage.setNick(user);
