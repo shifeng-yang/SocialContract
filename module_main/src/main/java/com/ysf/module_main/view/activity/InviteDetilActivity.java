@@ -3,10 +3,8 @@ package com.ysf.module_main.view.activity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
-
 import butterknife.BindView;
 
 public class InviteDetilActivity extends BaseActivity {
