@@ -5,6 +5,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
+
+import com.ysf.module_main.R;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
@@ -31,6 +35,12 @@ public abstract class BaseActivity extends SwipeBackActivity {
     protected abstract int getLayoutID();
 
     protected abstract void iniEventData();
+
+    protected void initToolBar(String title) {
+        TextView tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_title.setText(title);
+        findViewById(R.id.ib_back).setOnClickListener(view -> finish());
+    }
 
     @Override
     protected void onDestroy() {

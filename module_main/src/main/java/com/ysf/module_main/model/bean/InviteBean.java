@@ -1,23 +1,24 @@
 package com.ysf.module_main.model.bean;
 
 public class InviteBean {
-    private MyUserManage userInfo;
+    private UserBean userInfo;
     private GroupBean groupInfo;
     private String reson;
     private InvitationStatus status;
 
-    private enum InvitationStatus {
+
+    public enum InvitationStatus {
+        DEFAULT,
         NEW_INVITE,
         INVITE_ACCEPT,
         INVITE_ACCEPT_BY_PEER
-
     }
 
-    public MyUserManage getUserInfo() {
+    public UserBean getUserInfo() {
         return userInfo;
     }
 
-    public void setUserInfo(MyUserManage userInfo) {
+    public void setUserInfo(UserBean userInfo) {
         this.userInfo = userInfo;
     }
 

@@ -3,6 +3,7 @@ package com.ysf.module_main.view.fragment;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageButton;
+
 import com.flyco.animation.BounceEnter.BounceTopEnter;
 import com.flyco.animation.SlideExit.SlideBottomExit;
 import com.flyco.dialog.widget.NormalDialog;
@@ -10,9 +11,11 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
+import com.ysf.module_main.model.MyModel;
 import com.ysf.module_main.utils.MyPopupDialogUtils;
 import com.ysf.module_main.utils.SweetDialogUtils;
 import com.ysf.module_main.view.activity.LoginActivity;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -54,6 +57,8 @@ public class SettingFragment extends BaseFragment {
                         @Override
                         public void onSuccess() {
                             SweetDialogUtils.getSingleInstance().dismiss();
+                            //关闭联系人和邀请的数据库
+                            MyModel.getInstance().getContractAndinviteManage().close();
                             startActivity(new Intent(mContext, LoginActivity.class));
                             mActivity.finish();
                         }

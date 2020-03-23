@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.ysf.module_main.model.dao.ContractTable;
+import com.ysf.module_main.model.dao.InviteTable;
 
 public class ContractAndInviteDB extends SQLiteOpenHelper {
     public ContractAndInviteDB(Context context,String name) {
@@ -16,6 +17,7 @@ public class ContractAndInviteDB extends SQLiteOpenHelper {
         //联系人
         sqLiteDatabase.execSQL(ContractTable.CREATE_TABLE);
         //邀请
+        sqLiteDatabase.execSQL(InviteTable.CREATE_TABLE);
     }
 
     @Override

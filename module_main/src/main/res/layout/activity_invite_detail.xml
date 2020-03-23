@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/title_toolba_fragmentr"/>
+    <include layout="@layout/title_toolba_activity"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_invite"
+        android:id="@+id/rv_invite_detail"
         android:background="@color/white"
         android:overScrollMode="never"
         android:layout_width="match_parent"

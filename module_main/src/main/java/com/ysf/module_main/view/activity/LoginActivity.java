@@ -9,7 +9,7 @@ import com.hyphenate.chat.EMClient;
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
 import com.ysf.module_main.model.MyModel;
-import com.ysf.module_main.model.bean.MyUserManage;
+import com.ysf.module_main.model.bean.UserBean;
 import com.ysf.module_main.utils.SweetDialogUtils;
 import com.ysf.module_main.utils.ToastUtils;
 
@@ -57,12 +57,14 @@ public class LoginActivity extends BaseActivity {
                                 EMClient.getInstance().chatManager().loadAllConversations();
                                 EMClient.getInstance().groupManager().loadAllGroups();
                                 //保存用户信息
-                                MyUserManage userManage = new MyUserManage();
-                                userManage.setHx_id(user);
-                                userManage.setName(user);
-                                userManage.setNick(user);
-                                userManage.setImgUrl(user);
-                                MyModel.getInstance().mDao.addAccount(userManage);
+                                UserBean userBean = new UserBean();
+                                userBean.setHx_id(user);
+                                userBean.setName(user);
+                                userBean.setNick(user);
+                                userBean.setImgUrl(user);
+                                //登录成功创建联系人和邀请信息两张表
+                                MyModel.getInstance().onSuccessLogin(userBean);
+                                MyModel.getInstance().getUserAccountDao().addAccount(userBean);
                                 emitter.onNext("欢迎使用!");
                             }
 

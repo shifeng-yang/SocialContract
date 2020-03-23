@@ -58,6 +58,12 @@ dependencies {
     //气泡对话框
     api 'com.github.michaelye.easydialog:easydialog:1.4'
 
-    //sweetDialog
+    //sweetDialog..
     api 'com.github.f0ris.sweetalert:library:1.6.2'
+
+    //谷歌gson
+    api 'com.google.code.gson:gson:2.8.2'
+
+    //recycleview的adapter
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.1'
 }

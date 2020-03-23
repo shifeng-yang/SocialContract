@@ -4,7 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import com.ysf.module_main.model.bean.MyUserManage;
+
+import com.ysf.module_main.model.bean.UserBean;
 import com.ysf.module_main.model.db.UserAccountDB;
 
 public class UserAccountDao {
@@ -15,7 +16,12 @@ public class UserAccountDao {
         mHelp = new UserAccountDB(context);
     }
 
-    public void addAccount(MyUserManage user) {
+    public void deleteTable() {
+        mDb = mHelp.getReadableDatabase();
+        mDb.execSQL("DROP TABLE " + UserAccountTable.TABLE_NAME);
+    }
+
+    public void addAccount(UserBean user) {
         mDb = mHelp.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(UserAccountTable.HXID,user.getHx_id());
@@ -26,21 +32,21 @@ public class UserAccountDao {
         mDb.close();
     }
 
-    public MyUserManage getUserAccountByHxid(String hxid) {
+    public UserBean getUserAccountByHxid(String hxid) {
         mDb = mHelp.getReadableDatabase();
         String sql = "select * from " + UserAccountTable.TABLE_NAME + " where " + UserAccountTable.HXID + "=?";
         Cursor cursor = mDb.rawQuery(sql, new String[]{hxid});
-        MyUserManage manage = null;
+        UserBean userBean = null;
         while (cursor.moveToNext()) {
-            manage = new MyUserManage();
-            manage.setHx_id(cursor.getString(cursor.getColumnIndex(UserAccountTable.HXID)));
-            manage.setName(cursor.getString(cursor.getColumnIndex(UserAccountTable.NAME)));
-            manage.setNick(cursor.getString(cursor.getColumnIndex(UserAccountTable.NICK)));
-            manage.setImgUrl(cursor.getString(cursor.getColumnIndex(UserAccountTable.IMGURL)));
+            userBean = new UserBean();
+            userBean.setHx_id(cursor.getString(cursor.getColumnIndex(UserAccountTable.HXID)));
+            userBean.setName(cursor.getString(cursor.getColumnIndex(UserAccountTable.NAME)));
+            userBean.setNick(cursor.getString(cursor.getColumnIndex(UserAccountTable.NICK)));
+            userBean.setImgUrl(cursor.getString(cursor.getColumnIndex(UserAccountTable.IMGURL)));
         }
         cursor.close();
         mDb.close();
-        return manage;
+        return userBean;
     }
 
 }

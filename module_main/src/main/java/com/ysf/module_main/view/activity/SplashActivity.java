@@ -49,8 +49,6 @@ public class SplashActivity extends BaseActivity {
                             tvSkipTime.setText("跳过:" + s + "s");
                             if (s.equals("0")) {
                                 if (EMClient.getInstance().isLoggedInBefore()) {
-                                    EMClient.getInstance().chatManager().loadAllConversations();
-                                    EMClient.getInstance().groupManager().loadAllGroups();
                                     startActivity(new Intent(mContext,MainActivity.class));
                                 } else {
                                     startActivity(new Intent(mContext, LoginActivity.class));
