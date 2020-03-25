@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="5dp"
+    android:padding="15dp"
     android:layout_width="120dp"
     android:layout_height="wrap_content">
 
@@ -10,13 +10,14 @@
         android:id="@+id/tv_friend"
         android:text="添加好友"
         android:maxLines="1"
+        android:drawableStart="@drawable/icon_friend"
+        android:drawablePadding="10dp"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <View
-        android:layout_marginHorizontal="7dp"
         android:layout_marginVertical="5dp"
         android:background="@color/white"
         android:layout_width="match_parent"
@@ -26,6 +27,8 @@
         android:id="@+id/tv_group"
         android:text="添加群"
         android:maxLines="1"
+        android:drawableStart="@drawable/icon_group"
+        android:drawablePadding="10dp"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_width="wrap_content"

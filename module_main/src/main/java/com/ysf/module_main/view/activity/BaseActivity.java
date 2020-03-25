@@ -3,6 +3,7 @@ package com.ysf.module_main.view.activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -40,6 +41,10 @@ public abstract class BaseActivity extends SwipeBackActivity {
         TextView tv_title = (TextView) findViewById(R.id.tv_title);
         tv_title.setText(title);
         findViewById(R.id.ib_back).setOnClickListener(view -> finish());
+    }
+
+    protected View getEmptyView() {
+        return LayoutInflater.from(mContext).inflate(R.layout.empty_view, null);
     }
 
     @Override

@@ -44,7 +44,7 @@ public class MyPopupDialogUtils {
         });
     }
 
-    public static void popupWindow(Fragment fragment, View attachView, String content) {
+    public static void popupWindow(Fragment fragment, View attachView, String content,int orientation) {
         if (fragment.getContext() == null) return;
         View bgView = fragment.getLayoutInflater().inflate(R.layout.bg_popupwindow, null);
         TextView tvDes = bgView.findViewById(R.id.tv_des);
@@ -53,6 +53,7 @@ public class MyPopupDialogUtils {
         EasyDialog easyDialog = new EasyDialog(fragment.getContext())
                 .setLayout(bgView)
                 .setBackgroundColor(fragment.getResources().getColor(R.color.background_color_black))
+                .setGravity(orientation)
                 .setLocationByAttachedView(attachView)
                 .setAnimationTranslationShow(EasyDialog.DIRECTION_X, 1000, -600, 100, -50, 50, 0)
                 .setAnimationAlphaShow(1000, 0.3f, 1.0f)

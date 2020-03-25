@@ -6,12 +6,19 @@ public class InviteBean {
     private String reson;
     private InvitationStatus status;
 
-
     public enum InvitationStatus {
+        //默认状态
         DEFAULT,
+        //新邀请
         NEW_INVITE,
-        INVITE_ACCEPT,
-        INVITE_ACCEPT_BY_PEER
+        //请求被拒绝
+        INVITE_BY_DECLINED,
+        //请求被接受
+        INVITE_BY_ACCEPT,
+        //拒绝了请求
+        INVITE_DECLINED,
+        //接受了请求
+        INVITE_ACCEPT
     }
 
     public UserBean getUserInfo() {

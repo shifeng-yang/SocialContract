@@ -71,6 +71,10 @@ public abstract class BaseFragment extends Fragment {
         tv_title.setText(title);
     }
 
+    protected View getEmptyView() {
+        return LayoutInflater.from(mContext).inflate(R.layout.empty_view, null);
+    }
+
     protected abstract int getLayoutId();
 
     protected abstract void initEventData();

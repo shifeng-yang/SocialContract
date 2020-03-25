@@ -34,6 +34,7 @@ public class ContractFragment extends BaseFragment {
     RecyclerView rvInvite;
     private List<RvInviteBean> mRvInviteBeanList = new ArrayList<>();
     private LocalBroadcastManager mBroadcastManager;
+    private ContractInviteChangedReceiver mReceiver;
 
     @Override
     protected int getLayoutId() {
@@ -46,19 +47,28 @@ public class ContractFragment extends BaseFragment {
         //显示右侧加号
         ibAdd.setVisibility(View.VISIBLE);
         rvInvite.setLayoutManager(new LinearLayoutManager(mContext));
-        rvInvite.addItemDecoration(new DividerItemDecoration(mContext,RecyclerView.VERTICAL));
-        mRvInviteBeanList.add(new RvInviteBean(R.drawable.contract_active,"好友请求"));
-        mRvInviteBeanList.add(new RvInviteBean(R.drawable.contract_active,"群组"));
+        rvInvite.addItemDecoration(new DividerItemDecoration(mContext, RecyclerView.VERTICAL));
+        mRvInviteBeanList.add(new RvInviteBean(R.drawable.icon_friend_deep, "好友请求"));
+        mRvInviteBeanList.add(new RvInviteBean(R.drawable.icon_group_deep, "群组"));
         InviteAdapter inviteAdapter = new InviteAdapter(R.layout.item_invite, mRvInviteBeanList);
         inviteAdapter.setOnItemClickListener((adapter, view, position) -> {
-            //查看了邀请信息则隐藏红点
-            SPUtil.setParam(mContext,SPUtil.IS_NEW_INVITE,false);
-            inviteAdapter.notifyDataSetChanged();
-            startActivity(new Intent(mContext, InviteDetilActivity.class));
+            switch (position) {
+                case 0:
+                    //查看了邀请信息则隐藏红点
+                    SPUtil.setParam(mContext, SPUtil.IS_NEW_INVITE, false);
+                    inviteAdapter.notifyDataSetChanged();
+                    startActivity(new Intent(mContext, InviteDetilActivity.class));
+                    break;
+                case 1:
+                    break;
+                default:
+            }
+
         });
         rvInvite.setAdapter(inviteAdapter);
         mBroadcastManager = LocalBroadcastManager.getInstance(mContext);
-        mBroadcastManager.registerReceiver(new ContractInviteChangedReceiver(inviteAdapter),new IntentFilter(MyConstans.INVITE_CHANGED));
+        mReceiver = new ContractInviteChangedReceiver(inviteAdapter);
+        mBroadcastManager.registerReceiver(mReceiver, new IntentFilter(MyConstans.INVITE_CHANGED));
     }
 
     @OnClick(R2.id.ib_add)
@@ -67,4 +77,9 @@ public class ContractFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+//        mBroadcastManager.unregisterReceiver(mReceiver);
+    }
 }

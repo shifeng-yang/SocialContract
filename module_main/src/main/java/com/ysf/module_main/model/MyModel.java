@@ -29,7 +29,7 @@ public class MyModel {
         //提供数据库对象
         mUserAccountDao = new UserAccountDao(context);
         //注册监听
-        new HxEventListen(context);
+        new HxEventListener(context);
     }
 
     public UserAccountDao getUserAccountDao() {

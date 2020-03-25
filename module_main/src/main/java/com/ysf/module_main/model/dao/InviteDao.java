@@ -3,12 +3,10 @@ package com.ysf.module_main.model.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.ysf.module_main.model.bean.GroupBean;
 import com.ysf.module_main.model.bean.InviteBean;
 import com.ysf.module_main.model.bean.UserBean;
 import com.ysf.module_main.model.db.ContractAndInviteDB;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,10 +40,10 @@ public class InviteDao {
         mdb.close();
     }
 
-    public InviteBean getInvite() {
+    public List<InviteBean> getInvite() {
         mdb = mHelper.getReadableDatabase();
-        String aql = "select * from " + InviteTable.TABLE_NAME;
-        Cursor cursor = mdb.rawQuery(aql, null);
+        String sql = "select * from " + InviteTable.TABLE_NAME;
+        Cursor cursor = mdb.rawQuery(sql, null);
         InviteBean inviteBean;
         UserBean userBean;
         GroupBean groupBean;
@@ -71,16 +69,20 @@ public class InviteDao {
         }
         cursor.close();
         mdb.close();
-        return null;
+        return list;
     }
 
-    public InviteBean.InvitationStatus int2Status(int ordinal) {
-        if (ordinal == InviteBean.InvitationStatus.INVITE_ACCEPT.ordinal()) {
-            return InviteBean.InvitationStatus.INVITE_ACCEPT;
-        } else if (ordinal == InviteBean.InvitationStatus.INVITE_ACCEPT_BY_PEER.ordinal()) {
-            return InviteBean.InvitationStatus.INVITE_ACCEPT_BY_PEER;
+    private InviteBean.InvitationStatus int2Status(int ordinal) {
+        if (ordinal == InviteBean.InvitationStatus.INVITE_BY_ACCEPT.ordinal()) {
+            return InviteBean.InvitationStatus.INVITE_BY_ACCEPT;
+        } else if (ordinal == InviteBean.InvitationStatus.INVITE_BY_DECLINED.ordinal()) {
+            return InviteBean.InvitationStatus.INVITE_BY_DECLINED;
         } else if (ordinal == InviteBean.InvitationStatus.NEW_INVITE.ordinal()) {
             return InviteBean.InvitationStatus.NEW_INVITE;
+        } else if (ordinal == InviteBean.InvitationStatus.INVITE_ACCEPT.ordinal()) {
+            return InviteBean.InvitationStatus.INVITE_ACCEPT;
+        } else if (ordinal == InviteBean.InvitationStatus.INVITE_DECLINED.ordinal()) {
+            return InviteBean.InvitationStatus.INVITE_DECLINED;
         }
         return InviteBean.InvitationStatus.DEFAULT;
     }

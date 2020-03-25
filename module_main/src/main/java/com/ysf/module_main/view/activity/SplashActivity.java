@@ -7,6 +7,8 @@ import android.widget.TextView;
 import com.hyphenate.chat.EMClient;
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
+import com.ysf.module_main.model.MyModel;
+import com.ysf.module_main.model.bean.UserBean;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,6 +51,16 @@ public class SplashActivity extends BaseActivity {
                             tvSkipTime.setText("跳过:" + s + "s");
                             if (s.equals("0")) {
                                 if (EMClient.getInstance().isLoggedInBefore()) {
+                                    //保存用户信息
+                                    String user = EMClient.getInstance().getCurrentUser();
+                                    UserBean userBean = new UserBean();
+                                    userBean.setHx_id(user);
+                                    userBean.setName(user);
+                                    userBean.setNick(user);
+                                    userBean.setImgUrl(user);
+                                    //登录成功创建联系人和邀请信息两张表
+                                    MyModel.getInstance().onSuccessLogin(userBean);
+                                    MyModel.getInstance().getUserAccountDao().addAccount(userBean);
                                     startActivity(new Intent(mContext,MainActivity.class));
                                 } else {
                                     startActivity(new Intent(mContext, LoginActivity.class));
@@ -66,6 +78,16 @@ public class SplashActivity extends BaseActivity {
             mDisposable.dispose();
         }
         if (EMClient.getInstance().isLoggedInBefore()) {
+            //保存用户信息
+            String user = EMClient.getInstance().getCurrentUser();
+            UserBean userBean = new UserBean();
+            userBean.setHx_id(user);
+            userBean.setName(user);
+            userBean.setNick(user);
+            userBean.setImgUrl(user);
+            //登录成功创建联系人和邀请信息两张表
+            MyModel.getInstance().onSuccessLogin(userBean);
+            MyModel.getInstance().getUserAccountDao().addAccount(userBean);
             startActivity(new Intent(mContext,MainActivity.class));
         } else {
             startActivity(new Intent(mContext, LoginActivity.class));
