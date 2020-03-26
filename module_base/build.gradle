@@ -64,9 +64,9 @@ dependencies {
     //谷歌gson
     api 'com.google.code.gson:gson:2.8.2'
 
-    //recycleview的adapter
+    //recycleview的adapter.
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.1'
 
     //查看sqlite数据库
-    api 'com.idescout.sql:sqlscout-server:4.1'
+//    api 'com.idescout.sql:sqlscout-server:4.1'
 }

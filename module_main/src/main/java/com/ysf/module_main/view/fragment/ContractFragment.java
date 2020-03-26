@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.View;
 import android.widget.ImageButton;
-
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.michael.easydialog.EasyDialog;
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
@@ -20,10 +18,8 @@ import com.ysf.module_main.utils.MyPopupDialogUtils;
 import com.ysf.module_main.utils.SPUtil;
 import com.ysf.module_main.view.activity.InviteDetilActivity;
 import com.ysf.module_main.view.broadcast.ContractInviteChangedReceiver;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
