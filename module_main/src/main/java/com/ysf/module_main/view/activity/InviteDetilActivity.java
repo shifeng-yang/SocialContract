@@ -2,6 +2,7 @@ package com.ysf.module_main.view.activity;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -49,10 +50,11 @@ public class InviteDetilActivity extends BaseActivity {
             if (view.getId() == R.id.bt_acceptt) {
                 try {
                     EMClient.getInstance().contactManager().acceptInvitation(user_id);
-                    MyModel.getInstance().getContractAndinviteManage().getInviteDao().updateInviteStatus(user_id,InviteBean.InvitationStatus.INVITE_ACCEPT);
-                    ToastUtils.show(mContext,"添加成功");
                     //成功处理了这条消息隐藏红点
                     SPUtil.setParam(mContext,SPUtil.IS_NEW_INVITE,false);
+                    Log.d("2233", "网络请求");
+                    MyModel.getInstance().getContractAndinviteManage().getInviteDao().updateInviteStatus(user_id,InviteBean.InvitationStatus.INVITE_ACCEPT);
+                    ToastUtils.show(mContext,"添加成功");
                 } catch (HyphenateException e) {
                     ToastUtils.show(mContext,e.getDescription());
                     e.printStackTrace();
