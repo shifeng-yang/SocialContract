@@ -24,11 +24,15 @@ public class InviteAdapter extends BaseQuickAdapter<RvInviteBean,BaseViewHolder>
         baseViewHolder.setImageResource(R.id.iv_invite_icon,rvInviteBean.getIconUri());
         baseViewHolder.setText(R.id.tv_title,rvInviteBean.getTitle());
         View overlay = baseViewHolder.getView(R.id.iv_overlay);
-        boolean isNewInvite = (boolean) SPUtil.getParam(getContext(), SPUtil.IS_NEW_INVITE, false);
-        if (isNewInvite) {
-            overlay.setVisibility(View.VISIBLE);
-        } else {
-            overlay.setVisibility(View.GONE);
+        //好友/群邀请才考虑要不要显示红点
+        if (rvInviteBean.getTitle().equals("好友/群邀请")) {
+            boolean isNewInvite = (boolean) SPUtil.getParam(getContext(), SPUtil.IS_NEW_INVITE, false);
+            if (isNewInvite) {
+                overlay.setVisibility(View.VISIBLE);
+            } else {
+                overlay.setVisibility(View.GONE);
+            }
         }
+
     }
 }

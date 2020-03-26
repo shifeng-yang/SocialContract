@@ -7,13 +7,13 @@
 
     <ImageView
         android:layout_marginHorizontal="10dp"
-        android:id="@+id/iv_invite_icon"
-        android:src="@drawable/icon_group_deep"
+        android:id="@+id/iv_contract_icon"
+        android:src="@drawable/head_img"
         android:layout_width="25dp"
         android:layout_height="25dp" />
 
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/tv_contract_name"
         android:layout_marginStart="5dp"
         android:text="好友请求"
         android:textSize="18sp"
