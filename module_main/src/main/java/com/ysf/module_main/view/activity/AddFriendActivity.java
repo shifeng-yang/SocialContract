@@ -11,7 +11,12 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
+import com.ysf.module_main.model.MyModel;
+import com.ysf.module_main.model.bean.UserBean;
 import com.ysf.module_main.utils.ToastUtils;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -57,6 +62,13 @@ public class AddFriendActivity extends BaseActivity {
     @OnClick(R2.id.bt_add)
     public void onClick() {
         String username = etFriend.getText().toString();
+        List<UserBean> contracts = MyModel.getInstance().getContractAndinviteManage().getContractDao().getContracts();
+        for (UserBean contract : contracts) {
+            if (contract.getName().equals(username)) {
+                ToastUtils.show(mContext,"他已经您的好友了!");
+                return;
+            }
+        }
         if (TextUtils.isEmpty(username)) return;
         try {
             EMClient.getInstance().contactManager().addContact(username,"加个好友别");

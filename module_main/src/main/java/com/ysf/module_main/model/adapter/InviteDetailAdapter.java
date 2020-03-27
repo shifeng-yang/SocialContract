@@ -26,12 +26,20 @@ public class InviteDetailAdapter extends BaseQuickAdapter<InviteBean,BaseViewHol
             baseViewHolder.getView(R.id.bt_refuse).setVisibility(View.VISIBLE);
             baseViewHolder.setText(R.id.tv_des,rvInviteBean.getReson());
         } else if (rvInviteBean.getStatus() == InviteBean.InvitationStatus.INVITE_BY_ACCEPT) {
+            baseViewHolder.getView(R.id.bt_acceptt).setVisibility(View.GONE);
+            baseViewHolder.getView(R.id.bt_refuse).setVisibility(View.GONE);
             baseViewHolder.setText(R.id.tv_des,"添加好友成功");
         } else if (rvInviteBean.getStatus() == InviteBean.InvitationStatus.INVITE_BY_DECLINED) {
+            baseViewHolder.getView(R.id.bt_acceptt).setVisibility(View.GONE);
+            baseViewHolder.getView(R.id.bt_refuse).setVisibility(View.GONE);
             baseViewHolder.setText(R.id.tv_des,"因为长得太丑被拒绝了");
         }else if (rvInviteBean.getStatus() == InviteBean.InvitationStatus.INVITE_ACCEPT) {
+            baseViewHolder.getView(R.id.bt_acceptt).setVisibility(View.GONE);
+            baseViewHolder.getView(R.id.bt_refuse).setVisibility(View.GONE);
             baseViewHolder.setText(R.id.tv_des,"添加好友成功");
         }else if (rvInviteBean.getStatus() == InviteBean.InvitationStatus.INVITE_DECLINED) {
+            baseViewHolder.getView(R.id.bt_acceptt).setVisibility(View.GONE);
+            baseViewHolder.getView(R.id.bt_refuse).setVisibility(View.GONE);
             baseViewHolder.setText(R.id.tv_des,"您拒绝了添加好友");
         }
     }
