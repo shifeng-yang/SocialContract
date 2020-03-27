@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:hyphenate="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,20 +7,8 @@
     <include layout="@layout/title_toolba_activity"/>
 
     <FrameLayout
+        android:id="@+id/fl_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.hyphenate.easeui.widget.EaseChatMessageList
-            android:id="@+id/message_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            hyphenate:msgListShowUserNick="false" />
-
-        <com.hyphenate.easeui.widget.EaseChatInputMenu
-            android:id="@+id/input_menu"
-            android:layout_gravity="bottom"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
-    </FrameLayout>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

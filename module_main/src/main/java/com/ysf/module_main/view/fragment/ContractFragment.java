@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -11,8 +14,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
 import com.michael.easydialog.EasyDialog;
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
@@ -25,6 +31,7 @@ import com.ysf.module_main.utils.SPUtil;
 import com.ysf.module_main.utils.ToastUtils;
 import com.ysf.module_main.view.activity.ChatActivity;
 import com.ysf.module_main.view.activity.InviteDetilActivity;
+import com.ysf.module_main.view.activity.LoginActivity;
 import com.ysf.module_main.view.broadcast.ContractAddedReceiver;
 import com.ysf.module_main.view.broadcast.ContractInviteChangedReceiver;
 
@@ -47,8 +54,10 @@ public class ContractFragment extends BaseFragment {
     @BindView(R2.id.rv_contract)
     RecyclerView rvContract;
     private List<RvInviteBean> mRvInviteBeanList = new ArrayList<>();
-    private LocalBroadcastManager mBroadcastManager;
     private CompositeDisposable mDisposable;
+    private LocalBroadcastManager mBroadcastManager;
+    private ContractInviteChangedReceiver mInviteChangedReceiver;
+    private ContractAddedReceiver mContractAddedReceiver;
 
     @Override
     protected int getLayoutId() {
@@ -82,7 +91,8 @@ public class ContractFragment extends BaseFragment {
 
         });
         rvInvite.setAdapter(inviteAdapter);
-        mBroadcastManager.registerReceiver(new ContractInviteChangedReceiver(inviteAdapter), new IntentFilter(MyConstans.INVITE_CHANGED));
+        mInviteChangedReceiver = new ContractInviteChangedReceiver(inviteAdapter);
+        mBroadcastManager.registerReceiver(mInviteChangedReceiver, new IntentFilter(MyConstans.INVITE_CHANGED));
 
         //联系人列表
         rvContract.setLayoutManager(new LinearLayoutManager(mContext));
@@ -91,16 +101,18 @@ public class ContractFragment extends BaseFragment {
         ContractAdapter contractAdapter  = new ContractAdapter(R.layout.item_contract, contacts);
         rvContract.setAdapter(contractAdapter);
         mDisposable = new CompositeDisposable(
-                Observable.create((ObservableOnSubscribe<String>) emitter -> {
-                    try {
-                        contacts.addAll(EMClient.getInstance().contactManager().getAllContactsFromServer());
+                Observable.create((ObservableOnSubscribe<String>) emitter -> EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
+                    @Override
+                    public void onSuccess(List<String> strings) {
+                        contacts.addAll(strings);
                         emitter.onNext("成功");
-                        Log.d("ContractFragment", "contacts.size():" + contacts.size());
-                    } catch (HyphenateException e) {
-                        emitter.onNext(e.getDescription());
-                        e.printStackTrace();
                     }
-                })
+
+                    @Override
+                    public void onError(int i, String s) {
+                        emitter.onNext(i + ": " + s);
+                    }
+                }))
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(s -> {
@@ -113,25 +125,58 @@ public class ContractFragment extends BaseFragment {
                                 contractAdapter.notifyDataSetChanged();
                             } else {
                                 ToastUtils.show(mContext,s);
+                                startActivity(new Intent(mContext, LoginActivity.class));
+                                mActivity.finish();
                             }
                         })
         );
         contractAdapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(mContext, ChatActivity.class);
-            intent.putExtra("username",contacts.get(position));
+            intent.putExtra(EaseConstant.EXTRA_USER_ID,contacts.get(position));
+            intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
             startActivity(intent);
         });
-        mBroadcastManager.registerReceiver(new ContractAddedReceiver(contractAdapter),new IntentFilter(MyConstans.CONTRACT_CHANGED));
+        contractAdapter.setOnItemLongClickListener((adapter, view, position) -> {
+            MyPopupDialogUtils.popupWindowDelete(mActivity,view,EasyDialog.GRAVITY_TOP);
+            MyPopupDialogUtils.setOnDeleteClickListener(() -> {
+                Log.d("ContractFragment", "position:" + position);
+                EMClient.getInstance().contactManager().aysncDeleteContact(contacts.get(position), new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        mBroadcastManager.sendBroadcast(new Intent(MyConstans.CONTRACT_CHANGED));
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                        mActivity.runOnUiThread(() -> ToastUtils.show(mContext,i + ": " + s));
+                    }
+
+                    @Override
+                    public void onProgress(int i, String s) {
+
+                    }
+                });
+            });
+            return false;
+        });
+        mContractAddedReceiver = new ContractAddedReceiver(contractAdapter);
+        mBroadcastManager.registerReceiver(mContractAddedReceiver,new IntentFilter(MyConstans.CONTRACT_CHANGED));
     }
 
     @OnClick(R2.id.ib_add)
     public void onClick() {
+        RotateAnimation rotateAnimation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF,0.5f, Animation.RELATIVE_TO_SELF,0.5f);
+        rotateAnimation.setDuration(500);
+        rotateAnimation.setInterpolator(new DecelerateInterpolator());
+        ibAdd.startAnimation(rotateAnimation);
         MyPopupDialogUtils.popupWindowContract(mActivity, ibAdd, EasyDialog.GRAVITY_BOTTOM);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mBroadcastManager.unregisterReceiver(mContractAddedReceiver);
+        mBroadcastManager.unregisterReceiver(mInviteChangedReceiver);
         mDisposable.dispose();
     }
 }

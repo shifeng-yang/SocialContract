@@ -69,4 +69,8 @@ dependencies {
 
     //查看sqlite数据库
     api 'com.idescout.sql:sqlscout-server:4.1'
+
+    //动态申请权限
+    //权限
+    api "com.yanzhenjie:permission:1.0.7"
 }

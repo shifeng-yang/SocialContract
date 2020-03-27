@@ -2,15 +2,14 @@ package com.ysf.module_main.view.activity;
 
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
 import com.ysf.module_main.model.MyModel;
@@ -46,32 +45,48 @@ public class InviteDetilActivity extends BaseActivity {
         InviteDetailAdapter inviteDetailAdapter = new InviteDetailAdapter(R.layout.item_invite_detail, inviteList);
         inviteDetailAdapter.addChildClickViewIds(R.id.bt_acceptt,R.id.bt_refuse);
         inviteDetailAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            String user_id = inviteList.get(position).getUserInfo().getHx_id();
+            String username = inviteList.get(position).getUserInfo().getName();
             if (view.getId() == R.id.bt_acceptt) {
-                try {
-                    EMClient.getInstance().contactManager().acceptInvitation(user_id);
-                    //成功处理了这条消息隐藏红点
-                    SPUtil.setParam(mContext,SPUtil.IS_NEW_INVITE,false);
-                    Log.d("2233", "网络请求");
-                    MyModel.getInstance().getContractAndinviteManage().getInviteDao().updateInviteStatus(user_id,InviteBean.InvitationStatus.INVITE_ACCEPT);
-                    ToastUtils.show(mContext,"添加成功");
-                } catch (HyphenateException e) {
-                    ToastUtils.show(mContext,e.getDescription());
-                    e.printStackTrace();
-                }
+                EMClient.getInstance().contactManager().asyncAcceptInvitation(username, new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        MyModel.getInstance().getContractAndinviteManage().getInviteDao().updateInviteStatus(username,InviteBean.InvitationStatus.INVITE_ACCEPT);
+                        //成功处理了这条消息隐藏红点
+                        SPUtil.setParam(mContext,SPUtil.IS_NEW_INVITE,false);
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                        runOnUiThread(() -> ToastUtils.show(mContext,s));
+                    }
+
+                    @Override
+                    public void onProgress(int i, String s) {
+
+                    }
+                });
+
             } else if (view.getId() == R.id.bt_refuse) {
-                try {
-                    EMClient.getInstance().contactManager().declineInvitation(inviteList.get(position).getUserInfo().getHx_id());
-                    MyModel.getInstance().getContractAndinviteManage().getInviteDao().updateInviteStatus(user_id,InviteBean.InvitationStatus.INVITE_DECLINED);
-                    ToastUtils.show(mContext,"拒绝成功");
-                    //成功处理了这条消息隐藏红点
-                    SPUtil.setParam(mContext,SPUtil.IS_NEW_INVITE,false);
-                    //HxEventListener里没有监听的方法,这里手动发送一条广播刷新本页面和红点显示
-                    mBroadcastManager.sendBroadcast(new Intent(MyConstans.INVITE_CHANGED));
-                } catch (HyphenateException e) {
-                    ToastUtils.show(mContext,e.getDescription());
-                    e.printStackTrace();
-                }
+                EMClient.getInstance().contactManager().asyncDeclineInvitation(username, new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        MyModel.getInstance().getContractAndinviteManage().getInviteDao().updateInviteStatus(username,InviteBean.InvitationStatus.INVITE_DECLINED);
+                        //成功处理了这条消息隐藏红点
+                        SPUtil.setParam(mContext,SPUtil.IS_NEW_INVITE,false);
+                        //HxEventListener里没有监听的方法,这里手动发送一条广播刷新本页面和红点显示
+                        mBroadcastManager.sendBroadcast(new Intent(MyConstans.INVITE_CHANGED));
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {runOnUiThread(() -> ToastUtils.show(mContext,i + ": " + s));
+                    }
+
+                    @Override
+                    public void onProgress(int i, String s) {
+
+                    }
+                });
+
             }
         });
         inviteDetailAdapter.setEmptyView(getEmptyView());

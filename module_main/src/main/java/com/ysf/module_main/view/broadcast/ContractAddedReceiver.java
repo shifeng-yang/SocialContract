@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
 import com.ysf.module_main.model.adapter.ContractAdapter;
 import com.ysf.module_main.utils.ToastUtils;
 
@@ -33,16 +33,19 @@ public class ContractAddedReceiver extends BroadcastReceiver {
         //刷新适配器显示刚添加的联系人
         List<String> contacts = new ArrayList<>();
         mDisposable = new CompositeDisposable(
-                Observable.create((ObservableOnSubscribe<String>) emitter -> {
-                    try {
-                        contacts.addAll(EMClient.getInstance().contactManager().getAllContactsFromServer());
+                Observable.create((ObservableOnSubscribe<String>) emitter -> EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
+                    @Override
+                    public void onSuccess(List<String> strings) {
+                        contacts.addAll(strings);
                         Log.d("ContractAddedReceiver", "contacts.size():" + contacts.size());
                         emitter.onNext("成功");
-                    } catch (HyphenateException e) {
-                        emitter.onNext(e.getDescription());
-                        e.printStackTrace();
                     }
-                })
+
+                    @Override
+                    public void onError(int i, String s) {
+                        emitter.onNext(i + ": " + s);
+                    }
+                }))
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(s -> {
