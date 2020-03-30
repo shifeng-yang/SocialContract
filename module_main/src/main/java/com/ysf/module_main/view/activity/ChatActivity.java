@@ -28,6 +28,22 @@ public class ChatActivity extends BaseActivity {
 
     @Override
     protected void iniEventData() {
+        initPermission();
+        initData();
+    }
+
+    private void initData() {
+        String username = getIntent().getStringExtra(EaseConstant.EXTRA_USER_ID);
+        initToolBar(username);
+        EaseChatFragment chatFragment = new EaseChatFragment();
+        chatFragment.setArguments(getIntent().getExtras());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fl_container, chatFragment)
+                .commit();
+    }
+
+    private void initPermission() {
         if (!AndPermission.hasPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.CAMERA)) {
@@ -49,20 +65,13 @@ public class ChatActivity extends BaseActivity {
                             // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
                             if (AndPermission.hasAlwaysDeniedPermission(ChatActivity.this, deniedPermissions)) {
                                 //用默认的提示语。
-                                AndPermission.defaultSettingDialog(ChatActivity.this,1).show();
-                                ToastUtils.show(mContext, "请设置相关权限");
+                                AndPermission.defaultSettingDialog(ChatActivity.this, 1).show();
+                                ToastUtils.show(ChatActivity.this, "请设置相关权限");
                             }
                         }
                     })
                     .start();
         }
-        String username = getIntent().getStringExtra(EaseConstant.EXTRA_USER_ID);
-        initToolBar(username);
-        EaseChatFragment chatFragment = new EaseChatFragment();
-        chatFragment.setArguments(getIntent().getExtras());
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fl_container,chatFragment)
-                .commit();
     }
+
 }

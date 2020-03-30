@@ -3,6 +3,8 @@
     <!--<root-path-->
     <!--name="external_files"-->
     <!--path=""/>-->
+    <external-path path="Android/data/${applicationId}/" name="files_root" />
+    <external-path path="." name="external_storage_root" />
     <external-path name="images" path="content:/media/external/images/media/55402"/>
     <external-path name="external_files" path="."/>
     <!--代表外部存储区域的根目录下的文件 Environment.getExternalStorageDirectory()/DCIM/camerademo目录-->
@@ -21,32 +23,3 @@
     <external-cache-path name="hm_external_cache" path="." />
 </paths >
 
-<!--
-<resources>
-    &lt;!&ndash;    &lt;!&ndash;name：一个引用字符串。&ndash;&gt;
-    &lt;!&ndash;    path：文件夹“相对路径”，完整路径取决于当前的标签类型。&ndash;&gt;&ndash;&gt;
-    &lt;!&ndash;    &lt;!&ndash;&ndash;&gt;
-    &lt;!&ndash;    <files-path name="name" path="path" /> 相当于Context.getFilesDir() + /path/。&ndash;&gt;
-    &lt;!&ndash;    <cache-path name="name" path="path" />物理路径相当于Context.getCacheDir() + /path/。&ndash;&gt;
-    &lt;!&ndash;    <external-path name="name" path="path" />物理路径相当于Environment.getExternalStorageDirectory() + /path/。&ndash;&gt;
-    &lt;!&ndash;    <external-files-path name="name" path="path" />物理路径相当于Context.getExternalFilesDir(String) + /path/。&ndash;&gt;
-    &lt;!&ndash;    <external-cache-path name="name" path="path" />&ndash;&gt;
-    &lt;!&ndash;    物理路径相当于Context.getExternalCacheDir() + /path/&ndash;&gt;
-    &lt;!&ndash;    需要注意的是，你apk放到哪儿，里这儿就配置那个路径就ok&ndash;&gt;
-    &lt;!&ndash;    &ndash;&gt;&ndash;&gt;
-    <paths>
-        <external-path
-            name="Download"
-            path="" />
-        <external-path
-            name="yfck" />
-            path="" />
-        <external-path
-            name="files_root"
-            path="Android/data/com.lczj.yfck/" />
-        <external-path
-            name="external_storage_root"
-            path="." />
-    </paths>
-
-</resources>-->

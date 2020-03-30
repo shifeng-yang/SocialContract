@@ -9,6 +9,7 @@
             android:theme="@style/LaunchTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -20,8 +21,7 @@
         <activity android:name=".view.activity.ChatActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide_main"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"/>
 
         <!-- 声明SDK所需的service SDK核心功能-->

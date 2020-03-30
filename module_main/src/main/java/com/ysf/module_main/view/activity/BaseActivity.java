@@ -56,13 +56,15 @@ public abstract class BaseActivity extends SwipeBackActivity {
     private void setImageStatus(){
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS |
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        getWindow()
+                .addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        //ChatActivity不设置导航栏透明,编辑框会别输入法挡住,没找到有效的解决方法
+        if (this instanceof ChatActivity) return;
         //字体设置为浅黑色
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                         View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR |View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        getWindow()
-                .addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
 
     }
 

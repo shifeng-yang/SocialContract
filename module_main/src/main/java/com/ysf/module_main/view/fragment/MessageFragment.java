@@ -2,7 +2,6 @@ package com.ysf.module_main.view.fragment;
 
 import android.content.Intent;
 import android.widget.FrameLayout;
-
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
@@ -12,9 +11,7 @@ import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
 import com.ysf.module_main.view.activity.ChatActivity;
-
 import java.util.List;
-
 import butterknife.BindView;
 
 public class MessageFragment extends BaseFragment {
