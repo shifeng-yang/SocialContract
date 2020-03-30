@@ -42,7 +42,6 @@ public class EaseConversationList extends ListView{
         init(context, attrs);
     }
 
-    
     private void init(Context context, AttributeSet attrs) {
         this.context = context;
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.EaseConversationList);
