@@ -72,6 +72,8 @@ public class EaseConversationListFragment extends EaseBaseFragment{
 
     @Override
     protected void initView() {
+        //强行隐藏标题栏
+        titleBar.setVisibility(View.GONE);
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         conversationListView = (EaseConversationList) getView().findViewById(R.id.list);
         query = (EditText) getView().findViewById(R.id.query);

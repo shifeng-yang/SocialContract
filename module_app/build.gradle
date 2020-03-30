@@ -28,6 +28,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            //Android studio3.0以后
+            outputFileName = "contract_v${variant.versionName}_${variant.buildType.name}.apk"
+        }
+    }
 }
 
 dependencies {

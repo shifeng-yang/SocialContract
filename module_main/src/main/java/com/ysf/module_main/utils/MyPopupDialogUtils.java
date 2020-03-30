@@ -89,15 +89,52 @@ public class MyPopupDialogUtils {
                 .setMarginLeftAndRight(24, 24)
                 .setOutsideColor(activity.getResources().getColor(R.color.transparent))
                 .show();
-        //添加点击事件
+        //添加好友
         bgView.findViewById(R.id.tv_friend).setOnClickListener(view -> {
             easyDialog.dismiss();
             Intent intent = new Intent(activity, AddFriendActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             activity.startActivity(intent);
         });
+        //添加群
         bgView.findViewById(R.id.tv_group).setOnClickListener(view -> {
 
         });
+        //创建群
+        bgView.findViewById(R.id.tv_create_group).setOnClickListener(view -> {
+
+        });
+    }
+
+    public static void popupWindowDelete(Activity activity, View attachView,int orientation) {
+        View bgView = activity.getLayoutInflater().inflate(R.layout.bg_popup_delete, null);
+        EasyDialog easyDialog = new EasyDialog(activity)
+                .setLayout(bgView)
+                .setBackgroundColor(activity.getResources().getColor(R.color.background_color_black))
+                .setGravity(orientation)
+                .setLocationByAttachedView(attachView.findViewById(R.id.tv_contract_name))
+                .setAnimationTranslationShow(EasyDialog.DIRECTION_X, 1000, 600,-100,50,-50,0)
+                .setAnimationAlphaShow(1000, 0.3f, 1.0f)
+                .setAnimationTranslationDismiss(EasyDialog.DIRECTION_X, 500, 50,-800)
+                .setAnimationAlphaDismiss(500, 1.0f, 0.0f)
+                .setTouchOutsideDismiss(true)
+                .setMatchParent(false)
+                .setMarginLeftAndRight(24, 24)
+                .setOutsideColor(activity.getResources().getColor(R.color.transparent))
+                .show();
+        bgView.findViewById(R.id.tv_delete).setOnClickListener(view -> {
+            easyDialog.dismiss();
+            if (mListener == null) return;
+            mListener.onDeleteClickListener();
+        });
+    }
+
+    private static OnDeleteClickListener mListener;
+    public static void setOnDeleteClickListener(OnDeleteClickListener listener) {
+        mListener = listener;
+    }
+
+    public static interface OnDeleteClickListener {
+        void onDeleteClickListener();
     }
 }

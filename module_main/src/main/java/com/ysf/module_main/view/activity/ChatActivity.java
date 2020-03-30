@@ -1,18 +1,25 @@
 package com.ysf.module_main.view.activity;
 
-import com.hyphenate.chat.EMMessage;
-import com.hyphenate.easeui.widget.EaseChatInputMenu;
-import com.hyphenate.easeui.widget.EaseChatMessageList;
+import android.Manifest;
+import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.ui.EaseChatFragment;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionListener;
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
+import com.ysf.module_main.utils.ToastUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 
 public class ChatActivity extends BaseActivity {
-    @BindView(R2.id.message_list)
-    EaseChatMessageList messageList;
-    @BindView(R2.id.input_menu)
-    EaseChatInputMenu inputMenu;
+    @BindView(R2.id.fl_container)
+    FrameLayout flContainer;
 
     @Override
     protected int getLayoutID() {
@@ -21,48 +28,41 @@ public class ChatActivity extends BaseActivity {
 
     @Override
     protected void iniEventData() {
-        String username = getIntent().getStringExtra("username");
+        if (!AndPermission.hasPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA)) {
+            //申请权限
+            AndPermission.with(this)
+                    .requestCode(100)
+                    .permission(
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.CAMERA)
+                    .callback(new PermissionListener() {
+                        @Override
+                        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+
+                        }
+
+                        @Override
+                        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+                            // 权限申请失败回调。可提示
+                            // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
+                            if (AndPermission.hasAlwaysDeniedPermission(ChatActivity.this, deniedPermissions)) {
+                                //用默认的提示语。
+                                AndPermission.defaultSettingDialog(ChatActivity.this,1).show();
+                                ToastUtils.show(mContext, "请设置相关权限");
+                            }
+                        }
+                    })
+                    .start();
+        }
+        String username = getIntent().getStringExtra(EaseConstant.EXTRA_USER_ID);
         initToolBar(username);
-        messageList.init(username,EaseChatMessageList.AUTOFILL_TYPE_DATE,null);
-        messageList.setItemClickListener(new EaseChatMessageList.MessageListItemClickListener() {
-            @Override
-            public boolean onBubbleClick(EMMessage message) {
-                //气泡框点击事件，EaseUI有默认实现这个事件，如果需要覆盖，return值要返回true
-                return false;
-            }
-
-            @Override
-            public boolean onResendClick(EMMessage message) {
-                //重发消息按钮点击事件
-                return false;
-            }
-
-            @Override
-            public void onBubbleLongClick(EMMessage message) {
-                //气泡框长按事件
-            }
-
-            @Override
-            public void onUserAvatarClick(String username) {
-                //头像点击事件
-            }
-
-            @Override
-            public void onUserAvatarLongClick(String username) {
-                //头像长按
-            }
-
-            @Override
-            public void onMessageInProgress(EMMessage message) {
-
-            }
-        });
-
-        /*//获取下拉刷新控件
-            swipeRefreshLayout = messageList.getSwipeRefreshLayout();
-            //刷新消息列表
-            messageList.refresh();
-            messageList.refreshSeekTo(position);
-            messageList.refreshSelectLast();*/
+        EaseChatFragment chatFragment = new EaseChatFragment();
+        chatFragment.setArguments(getIntent().getExtras());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fl_container,chatFragment)
+                .commit();
     }
 }

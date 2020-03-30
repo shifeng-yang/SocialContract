@@ -294,6 +294,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     }
 
     protected void setUpView() {
+        //聊天界面强行隐藏标题栏
+        titleBar.setVisibility(View.GONE);
         titleBar.setTitle(toChatUsername);
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             // set title
