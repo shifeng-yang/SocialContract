@@ -1,12 +1,13 @@
 package com.ysf.module_main.view;
 
+import androidx.annotation.NonNull;
 import androidx.multidex.MultiDexApplication;
 
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.EaseUI;
 import com.ysf.module_main.model.MyModel;
 
-public class App extends MultiDexApplication {
+public class App extends MultiDexApplication implements Thread.UncaughtExceptionHandler {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -19,5 +20,12 @@ public class App extends MultiDexApplication {
         //初始化model
         MyModel.getInstance().init(this);
     }
+
+    @Override
+    public void uncaughtException(@NonNull Thread thread, @NonNull Throwable throwable) {
+
+    }
+
+
 
 }

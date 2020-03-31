@@ -2,6 +2,7 @@ package com.ysf.module_main.view.activity;
 
 import android.Manifest;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
@@ -20,6 +21,8 @@ import butterknife.BindView;
 public class ChatActivity extends BaseActivity {
     @BindView(R2.id.fl_container)
     FrameLayout flContainer;
+    @BindView(R2.id.iv_delete)
+    ImageView ivDelete;
 
     @Override
     protected int getLayoutID() {
@@ -36,6 +39,7 @@ public class ChatActivity extends BaseActivity {
         String username = getIntent().getStringExtra(EaseConstant.EXTRA_USER_ID);
         initToolBar(username);
         EaseChatFragment chatFragment = new EaseChatFragment();
+        chatFragment.setRightImgClick(ivDelete);
         chatFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager()
                 .beginTransaction()

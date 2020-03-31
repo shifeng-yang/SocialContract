@@ -22,6 +22,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -354,6 +355,16 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         if (forward_msg_id != null) {
             forwardMessage(forward_msg_id);
         }
+    }
+
+    public void setRightImgClick(ImageView imageView) {
+        Log.d(TAG, "imageView:" + imageView);
+        imageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emptyHistory();
+            }
+        });
     }
     
     /**
