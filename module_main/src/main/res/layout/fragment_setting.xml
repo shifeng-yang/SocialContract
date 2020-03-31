@@ -1,17 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <include layout="@layout/title_toolba_fragmentr"/>
 
-    <TextView
-        android:id="@+id/tv_user"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="200dp"
-        android:textSize="18sp"
-        android:text="用户"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp">
+
+        <View
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="95dp"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_marginBottom="5dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="10dp">
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/px100"
+                android:layout_marginStart="@dimen/px100"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/head_img"
+                    android:scaleType="fitXY"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+
+                <LinearLayout
+                    android:layout_marginStart="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_user"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:text="浪里小白狼"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:textSize="18sp"
+                        android:textColor="@color/yellow_900"
+                        android:textStyle="bold"
+                        android:text="☀☀☀☾☾★"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_signature"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                android:drawableStart="@drawable/edit"
+                android:layout_marginStart="@dimen/px100"
+                android:layout_marginBottom="@dimen/px100"
+                android:maxLines="1"
+                android:textStyle="italic"
+                android:text="个性签名:这个人很懒什么都没写~~"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_setting"
+        android:overScrollMode="never"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </androidx.recyclerview.widget.RecyclerView>
+
 </LinearLayout>

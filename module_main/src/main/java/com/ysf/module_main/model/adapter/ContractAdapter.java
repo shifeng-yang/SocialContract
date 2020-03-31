@@ -19,7 +19,6 @@ public class ContractAdapter extends BaseQuickAdapter<String,BaseViewHolder> {
 
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, String data) {
-        Log.d("ContractAdapter", data);
         baseViewHolder.setText(R.id.tv_contract_name,data);
     }
 }

@@ -4,9 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<include layout="@layout/title_toolba_activity"/>-->
-
     <FrameLayout
+        android:paddingHorizontal="5dp"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="bottom"
@@ -28,6 +27,13 @@
             android:text="标题"
             android:textColor="@color/white"
             android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_gravity="center_vertical|end"
+            android:src="@drawable/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </FrameLayout>
 
     <FrameLayout

@@ -32,7 +32,6 @@ public class ChatActivity extends BaseActivity {
         initData();
     }
 
-
     private void initData() {
         String username = getIntent().getStringExtra(EaseConstant.EXTRA_USER_ID);
         initToolBar(username);

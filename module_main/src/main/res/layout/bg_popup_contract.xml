@@ -43,7 +43,7 @@
         android:id="@+id/tv_create_group"
         android:text="创建群"
         android:maxLines="1"
-        android:drawableStart="@drawable/icon_create_group"
+        android:drawableStart="@drawable/icon_group"
         android:drawablePadding="10dp"
         android:textColor="@color/white"
         android:textSize="18sp"

@@ -41,8 +41,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class ContractFragment extends BaseFragment {
@@ -103,32 +105,75 @@ public class ContractFragment extends BaseFragment {
                 Observable.create((ObservableOnSubscribe<String>) emitter -> EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
                     @Override
                     public void onSuccess(List<String> strings) {
+                        Log.d("ContractFragment", "第一次发送==>成功回调"+ Thread.currentThread().getName());
                         contacts.addAll(strings);
                         emitter.onNext("成功");
                     }
 
                     @Override
                     public void onError(int i, String s) {
+                        Log.d("ContractFragment", "第一次发送==>失败回调" + Thread.currentThread().getName());
                         emitter.onNext(i + ": " + s);
                     }
                 }))
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(s -> {
+                        .doOnNext(s -> {
+                            Log.d("ContractFragment", "第一次接收" + Thread.currentThread().getName());
                             //数据异常,取消订阅
                             if (s.equals("-1") && mDisposable != null) {
                                 mDisposable.dispose();
                                 return;
                             }
-                            if (s.equals("成功")) {
-                                contractAdapter.notifyDataSetChanged();
-                            } else {
-                                ToastUtils.show(mContext,s);
-                                /*String user = EMClient.getInstance().getCurrentUser();
-                                EMClient.getInstance().login(user,user,);*/
-//                                startActivity(new Intent(mContext, LoginActivity.class));
-//                                mActivity.finish();
-                            }
+                            if (s.equals("成功")) contractAdapter.notifyDataSetChanged();
+                        })
+                        .observeOn(Schedulers.newThread())
+                        .flatMap((Function<String, ObservableSource<String>>) s -> (ObservableSource<String>) observer -> {
+                            Log.d("ContractFragment", "第一次转换" + Thread.currentThread().getName());
+                            if (s.equals("成功")) return;
+                            String user = EMClient.getInstance().getCurrentUser();
+                            EMClient.getInstance().login(user, user, new EMCallBack() {
+                                @Override
+                                public void onSuccess() {
+                                    Log.d("ContractFragment", "第一次转换==>成功回调"+ Thread.currentThread().getName());
+                                    observer.onNext("成功了");
+                                }
+
+                                @Override
+                                public void onError(int i, String s) {
+                                    Log.d("ContractFragment", "第一次转换==>失败回调"+ Thread.currentThread().getName());
+                                    observer.onNext(i + " :" + s);
+                                }
+
+                                @Override
+                                public void onProgress(int i, String s) {
+
+                                }
+                            });
+                        })
+                        .flatMap((Function<String, ObservableSource<String>>) s -> (ObservableSource<String>) observer -> {
+                            Log.d("ContractFragment", "第二次转换" + Thread.currentThread().getName());
+                            if (!s.equals("成功了")) return;
+                            EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
+                                @Override
+                                public void onSuccess(List<String> strings) {
+                                    Log.d("ContractFragment", "第二次转换==>成功回调"+ Thread.currentThread().getName());
+                                    contacts.addAll(strings);
+                                    observer.onNext("成功了啊");
+                                }
+
+                                @Override
+                                public void onError(int i, String s12) {
+                                    Log.d("ContractFragment", "第二次转换==>失败回调" + Thread.currentThread().getName());
+                                    observer.onNext(i + ": " + s12);
+                                }
+                            });
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(s -> {
+                            Log.d("ContractFragment", "最终接收" + Thread.currentThread().getName());
+                            if (s.equals("成功了啊")) contractAdapter.notifyDataSetChanged();
+                            else ToastUtils.show(mContext,s);
                         })
         );
         contractAdapter.setOnItemClickListener((adapter, view, position) -> {
