@@ -31,7 +31,6 @@ import com.ysf.module_main.utils.SPUtil;
 import com.ysf.module_main.utils.ToastUtils;
 import com.ysf.module_main.view.activity.ChatActivity;
 import com.ysf.module_main.view.activity.InviteDetilActivity;
-import com.ysf.module_main.view.activity.LoginActivity;
 import com.ysf.module_main.view.broadcast.ContractAddedReceiver;
 import com.ysf.module_main.view.broadcast.ContractInviteChangedReceiver;
 
@@ -125,8 +124,10 @@ public class ContractFragment extends BaseFragment {
                                 contractAdapter.notifyDataSetChanged();
                             } else {
                                 ToastUtils.show(mContext,s);
-                                startActivity(new Intent(mContext, LoginActivity.class));
-                                mActivity.finish();
+                                /*String user = EMClient.getInstance().getCurrentUser();
+                                EMClient.getInstance().login(user,user,);*/
+//                                startActivity(new Intent(mContext, LoginActivity.class));
+//                                mActivity.finish();
                             }
                         })
         );
