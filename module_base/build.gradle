@@ -70,4 +70,12 @@ dependencies {
     //动态申请权限
     //权限
     api "com.yanzhenjie:permission:1.0.7"
+
+    //UI控件
+    api 'com.github.chenBingX:SuperTextView:v3.1.4'
+
+    //腾讯bugly
+    api 'com.tencent.bugly:crashreport:latest.release'
+
+
 }

@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
 import com.ysf.module_main.model.MyModel;
@@ -41,7 +42,7 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R2.id.bt_sign_in)
     public void onClickSignIn() {
-        String user = etUser.getText().toString();
+        String user = etUser.getText().toString().toLowerCase();
         String psd = etPsd.getText().toString();
         if (TextUtils.isEmpty(user) || TextUtils.isEmpty(psd)) {
             ToastUtils.show(mContext, "输入不能为空!");
@@ -54,6 +55,8 @@ public class LoginActivity extends BaseActivity {
                             @Override
                             public void onSuccess() {
                                 SweetDialogUtils.getSingleInstance().dismiss();
+                                //bugly上报的用户ID
+                                CrashReport.setUserId(mContext,user);
                                 EMClient.getInstance().chatManager().loadAllConversations();
                                 EMClient.getInstance().groupManager().loadAllGroups();
                                 //保存用户信息

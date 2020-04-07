@@ -5,6 +5,7 @@ import android.os.SystemClock;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ysf.module_main.R;
 import com.ysf.module_main.R2;
 import com.ysf.module_main.model.MyModel;
@@ -52,7 +53,9 @@ public class SplashActivity extends BaseActivity {
                             if (s.equals("0")) {
                                 if (EMClient.getInstance().isLoggedInBefore()) {
                                     //保存用户信息
-                                    String user = EMClient.getInstance().getCurrentUser();
+                                    String user = EMClient.getInstance().getCurrentUser().toLowerCase();
+                                    //bugly上报的用户ID
+                                    CrashReport.setUserId(this,user);
                                     UserBean userBean = new UserBean();
                                     userBean.setHx_id(user);
                                     userBean.setName(user);
@@ -79,7 +82,9 @@ public class SplashActivity extends BaseActivity {
         }
         if (EMClient.getInstance().isLoggedInBefore()) {
             //保存用户信息
-            String user = EMClient.getInstance().getCurrentUser();
+            String user = EMClient.getInstance().getCurrentUser().toLowerCase();
+            //bugly上报的用户ID
+            CrashReport.setUserId(this,user);
             UserBean userBean = new UserBean();
             userBean.setHx_id(user);
             userBean.setName(user);

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.coorchice.library.SuperTextView
+        android:id="@+id/stv_test"
+        android:text="浪里小白狼"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:stv_drawableAsBackground="true"
+        app:stv_state_drawable="@drawable/icon_empty"
+        app:stv_textShaderEnable="true"
+        app:stv_textShaderStartColor="@color/white"
+        app:stv_textShaderEndColor="@color/colorPrimary"
+        app:stv_textShaderMode="leftToRight"
+        app:stv_shaderEnable="true"
+        app:stv_shaderStartColor="@color/colorPrimary"
+        app:stv_shaderEndColor="@color/white"
+        app:stv_shaderMode="leftToRight"
+        app:stv_text_stroke="true"
+        app:stv_text_fill_color="@color/colorPrimary"
+        app:stv_text_stroke_color="@color/green"
+        app:stv_text_stroke_width="5dp"
+        app:stv_stroke_width="2dp"
+        app:stv_stroke_color="@color/colorPrimary"
+        app:stv_solid="@color/white"
+        app:stv_corner="200dp"/>
+</LinearLayout>
